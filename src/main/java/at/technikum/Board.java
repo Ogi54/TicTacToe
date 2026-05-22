@@ -1,96 +1,53 @@
-package at.technikum;
+package at.technikumwien.slt;
 
 public class Board {
-
-    private final char[][] board;
+    private final char[][] cells;
 
     public Board() {
-        board = new char[3][3];
-
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                board[row][col] = '-';
-            }
-        }
+        cells = new char[3][3];
+        clear();
     }
 
-    public boolean makeMove(int row, int col, char symbol) {
-        if (row < 0 || row > 2 || col < 0 || col > 2) {
-            return false;
-        }
-
-        if (board[row][col] != '-') {
-            return false;
-        }
-
-        board[row][col] = symbol;
-        return true;
+    public boolean isCellEmpty(int x, int y) {
+        return cells[x][y] == ' ';
     }
 
-    public boolean isBoardFull() {
+    public void place(int x, int y, char marker) {
+        cells[x][y] = marker;
+    }
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-
-                if (board[row][col] == '-') {
+    public boolean isFull() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if (cells[x][y] == ' ') {
                     return false;
                 }
             }
         }
-
         return true;
     }
 
-    public boolean checkWinner(char symbol) {
-
-        // Reihen prüfen
-        for (int row = 0; row < 3; row++) {
-
-            if (board[row][0] == symbol &&
-                    board[row][1] == symbol &&
-                    board[row][2] == symbol) {
-
-                return true;
+    public void clear() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                cells[x][y] = ' ';
             }
         }
-
-        // Spalten prüfen
-        for (int col = 0; col < 3; col++) {
-
-            if (board[0][col] == symbol &&
-                    board[1][col] == symbol &&
-                    board[2][col] == symbol) {
-
-                return true;
-            }
-        }
-
-        // Diagonale links oben -> rechts unten
-        if (board[0][0] == symbol &&
-                board[1][1] == symbol &&
-                board[2][2] == symbol) {
-
-            return true;
-        }
-
-        // Diagonale rechts oben -> links unten
-        if (board[0][2] == symbol &&
-                board[1][1] == symbol &&
-                board[2][0] == symbol) {
-
-            return true;
-        }
-
-        return false;
     }
 
-
-    public void printBoard() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                System.out.print(board[row][col] + " ");
+    public void print() {
+        System.out.println("-------------");
+        for (int y = 0; y < 3; y++) {
+            System.out.print("| ");
+            for (int x = 0; x < 3; x++) {
+                System.out.print(cells[x][y] + " | ");
             }
             System.out.println();
         }
+        System.out.println("-------------");
+    }
+
+    public char[][] getCells() {
+        return cells;
     }
 }
